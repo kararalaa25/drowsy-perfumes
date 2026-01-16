@@ -8,21 +8,16 @@ interface PurchaseButtonProps {
   isSticky?: boolean;
 }
 
-const WHATSAPP_URL = "https://wa.me/message/CEKI6YEDOWIEM1";
+// Using full API URL format for better compatibility
+const WHATSAPP_PHONE = "9647702583773"; // Replace with actual phone number
 const INSTAGRAM_URL = "https://www.instagram.com/drowsy10?igsh=MTNuNzl3c3RhMHQycA==";
 
 const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) => {
   const [showOptions, setShowOptions] = useState(false);
 
-  const handleWhatsApp = () => {
+  const getWhatsAppUrl = () => {
     const message = encodeURIComponent(`مرحباً، أود طلب عطر ${productName}`);
-    window.open(`${WHATSAPP_URL}&text=${message}`, "_blank");
-    setShowOptions(false);
-  };
-
-  const handleInstagram = () => {
-    window.open(INSTAGRAM_URL, "_blank");
-    setShowOptions(false);
+    return `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${message}`;
   };
 
   return (
@@ -70,21 +65,27 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               </p>
 
               <div className="space-y-3">
-                <button
-                  onClick={handleWhatsApp}
+                <a
+                  href={getWhatsAppUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setShowOptions(false)}
                   className="w-full flex items-center justify-center gap-3 p-4 rounded-xl bg-[#25D366] hover:bg-[#20BD5A] text-white font-arabic font-medium transition-all duration-300 hover:shadow-lg"
                 >
                   <MessageCircle className="w-6 h-6" />
                   <span>واتساب</span>
-                </button>
+                </a>
 
-                <button
-                  onClick={handleInstagram}
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setShowOptions(false)}
                   className="w-full flex items-center justify-center gap-3 p-4 rounded-xl bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 text-white font-arabic font-medium transition-all duration-300 hover:shadow-lg"
                 >
                   <Instagram className="w-6 h-6" />
                   <span>انستغرام</span>
-                </button>
+                </a>
               </div>
 
               <p className="font-arabic text-xs text-muted-foreground text-center mt-6">
