@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Globe, X, Send } from "lucide-react";
+import { MessageCircle, Globe, X, Send, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface PurchaseButtonProps {
   productName: string;
@@ -13,13 +20,37 @@ interface PurchaseButtonProps {
 // Using full API URL format for better compatibility
 const WHATSAPP_PHONE = "9647706713486";
 
+// Iraqi governorates list
+const IRAQI_GOVERNORATES = [
+  "بغداد",
+  "البصرة",
+  "نينوى",
+  "أربيل",
+  "النجف",
+  "كربلاء",
+  "ذي قار",
+  "كركوك",
+  "الأنبار",
+  "بابل",
+  "ديالى",
+  "المثنى",
+  "القادسية",
+  "ميسان",
+  "واسط",
+  "صلاح الدين",
+  "دهوك",
+  "السليمانية",
+  "حلبجة",
+];
+
 const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) => {
   const [showOptions, setShowOptions] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    address: "",
+    governorate: "",
+    city: "",
   });
 
   const getWhatsAppUrl = (message?: string) => {
@@ -36,13 +67,14 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 اسم العطر: ${productName}
 الاسم: ${formData.name}
 الهاتف: ${formData.phone}
-العنوان: ${formData.address}`;
+المحافظة: ${formData.governorate}
+المدينة: ${formData.city}`;
 
     const whatsappUrl = getWhatsAppUrl(orderMessage);
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     
     // Reset form and close modals
-    setFormData({ name: "", phone: "", address: "" });
+    setFormData({ name: "", phone: "", governorate: "", city: "" });
     setShowForm(false);
     setShowOptions(false);
   };
@@ -145,7 +177,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm bg-background border border-border rounded-2xl p-6 shadow-2xl"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm bg-background border border-border rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto"
               dir="rtl"
             >
               <button
@@ -166,6 +198,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               </p>
 
               <form onSubmit={handleFormSubmit} className="space-y-4">
+                {/* Full Name */}
                 <div className="space-y-2">
                   <Label htmlFor="name" className="font-arabic text-right block">
                     الاسم الكامل
@@ -181,32 +214,65 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                   />
                 </div>
 
+                {/* Phone Number - accepts both Western & Eastern Arabic numerals */}
                 <div className="space-y-2">
                   <Label htmlFor="phone" className="font-arabic text-right block">
                     رقم الهاتف
                   </Label>
                   <Input
                     id="phone"
-                    type="tel"
+                    type="text"
+                    inputMode="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
                     className="font-arabic text-right"
-                    placeholder="07xxxxxxxxx"
+                    placeholder="07xxxxxxxxx أو ٠٧xxxxxxxxx"
                     required
                   />
                 </div>
 
+                {/* Governorate Dropdown */}
                 <div className="space-y-2">
-                  <Label htmlFor="address" className="font-arabic text-right block">
-                    العنوان / المحافظة
+                  <Label className="font-arabic text-right block">
+                    المحافظة
+                  </Label>
+                  <Select
+                    value={formData.governorate}
+                    onValueChange={(value) => handleInputChange("governorate", value)}
+                    required
+                  >
+                    <SelectTrigger className="w-full font-arabic text-right bg-background border-border">
+                      <SelectValue placeholder="اختر المحافظة" />
+                    </SelectTrigger>
+                    <SelectContent 
+                      className="font-arabic bg-background border-border z-[100] max-h-60"
+                      dir="rtl"
+                    >
+                      {IRAQI_GOVERNORATES.map((gov) => (
+                        <SelectItem 
+                          key={gov} 
+                          value={gov}
+                          className="font-arabic text-right hover:bg-muted cursor-pointer"
+                        >
+                          {gov}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* City/Neighborhood */}
+                <div className="space-y-2">
+                  <Label htmlFor="city" className="font-arabic text-right block">
+                    المدينة / الحي
                   </Label>
                   <Input
-                    id="address"
+                    id="city"
                     type="text"
-                    value={formData.address}
-                    onChange={(e) => handleInputChange("address", e.target.value)}
+                    value={formData.city}
+                    onChange={(e) => handleInputChange("city", e.target.value)}
                     className="font-arabic text-right"
-                    placeholder="بغداد، المنصور"
+                    placeholder="مثال: المنصور، الكرادة"
                     required
                   />
                 </div>
