@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Hero from "@/components/Hero";
+import HeroSlider from "@/components/HeroSlider";
 import ProductSection from "@/components/ProductSection";
 import CheckoutDrawer from "@/components/CheckoutDrawer";
 import Footer from "@/components/Footer";
@@ -54,7 +55,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Hero />
-      
+      <HeroSlider />
       <div id="products">
         <ProductSection
           {...products.femme}

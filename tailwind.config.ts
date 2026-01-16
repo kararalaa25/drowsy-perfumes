@@ -56,7 +56,7 @@ export default {
           light: "hsl(var(--gold-light))",
         },
         charcoal: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "hsl(var(--charcoal))",
           light: "hsl(var(--charcoal-light))",
         },
       },
