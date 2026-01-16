@@ -9,8 +9,8 @@ interface PurchaseButtonProps {
 }
 
 // Using full API URL format for better compatibility
-const WHATSAPP_PHONE = "9647702583773"; // Replace with actual phone number
-const INSTAGRAM_URL = "https://www.instagram.com/drowsy10?igsh=MTNuNzl3c3RhMHQycA==";
+const WHATSAPP_PHONE = "9647706713486";
+const INSTAGRAM_URL = "https://www.instagram.com/drowsy10";
 
 const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) => {
   const [showOptions, setShowOptions] = useState(false);
