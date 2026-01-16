@@ -41,7 +41,7 @@ const HeroSlider = () => {
 
   return (
     <section
-      className="relative w-full h-screen overflow-hidden bg-charcoal"
+      className="relative w-full aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden bg-black"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -53,19 +53,20 @@ const HeroSlider = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-          className="absolute inset-0"
+          className="absolute inset-0 flex items-center justify-center"
         >
           {/* Ken Burns Effect Container */}
           <motion.div
             initial={{ scale: 1 }}
-            animate={{ scale: 1.08 }}
+            animate={{ scale: 1.05 }}
             transition={{ duration: 5, ease: "linear" }}
-            className="w-full h-full"
+            className="w-full h-full flex items-center justify-center"
           >
             <img
               src={slides[currentSlide].src}
               alt={slides[currentSlide].alt}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-contain"
+              style={{ imageRendering: 'crisp-edges' }}
             />
           </motion.div>
         </motion.div>
