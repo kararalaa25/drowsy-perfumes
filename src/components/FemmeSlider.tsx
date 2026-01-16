@@ -62,11 +62,11 @@ const FemmeSlider = () => {
     setCurrentSlide(index);
   };
 
-  // Auto-play logic - 5 second intervals with loop
+  // Auto-play logic - 3 second intervals with loop
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, [nextSlide]);
@@ -146,15 +146,16 @@ const FemmeSlider = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.8 }}
         className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 text-center"
+        dir="rtl"
       >
-        <p className="text-sm tracking-[0.4em] uppercase text-white/70 mb-2">
-          Discover
+        <p className="font-arabic text-sm tracking-widest uppercase text-white/70 mb-2">
+          للنساء
         </p>
-        <h2 className="font-serif text-4xl md:text-6xl text-white tracking-wide">
-          EIVE Drowsy
+        <h2 className="font-arabic text-4xl md:text-6xl text-white font-bold">
+          إيف
         </h2>
-        <p className="text-white/60 mt-3 text-sm tracking-widest uppercase">
-          Pour Femme
+        <p className="font-serif text-white/60 mt-3 text-lg tracking-widest uppercase">
+          Eive
         </p>
       </motion.div>
     </section>
