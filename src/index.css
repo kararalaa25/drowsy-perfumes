@@ -44,6 +44,7 @@ All colors MUST be HSL.
     --gold-light: 43 45% 75%;
     --cream-dark: 35 25% 93%;
     --charcoal-light: 0 0% 30%;
+    --charcoal: 0 0% 12%;
   }
 
   .dark {
