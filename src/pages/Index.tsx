@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Hero from "@/components/Hero";
 import HeroSlider from "@/components/HeroSlider";
+import FemmeSlider from "@/components/FemmeSlider";
 import ProductSection from "@/components/ProductSection";
 import CheckoutDrawer from "@/components/CheckoutDrawer";
 import Footer from "@/components/Footer";
@@ -57,6 +58,7 @@ const Index = () => {
       <Hero />
       <HeroSlider />
       <div id="products">
+        <FemmeSlider />
         <ProductSection
           {...products.femme}
           onBuyNow={() => handleBuyNow(products.femme)}
