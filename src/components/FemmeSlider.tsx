@@ -29,16 +29,17 @@ const slides = [
 const SlideImage = memo(({ src, alt, isActive }: { src: string; alt: string; isActive: boolean }) => (
   <motion.div
     initial={{ scale: 1 }}
-    animate={{ scale: isActive ? 1.08 : 1 }}
+    animate={{ scale: isActive ? 1.05 : 1 }}
     transition={{ duration: 5, ease: "linear" }}
-    className="w-full h-full"
+    className="w-full h-full flex items-center justify-center"
   >
     <img
       src={src}
       alt={alt}
       loading="lazy"
       decoding="async"
-      className="w-full h-full object-cover object-center"
+      className="w-full h-full object-contain"
+      style={{ imageRendering: 'crisp-edges' }}
     />
   </motion.div>
 ));
@@ -72,7 +73,7 @@ const FemmeSlider = () => {
 
   return (
     <section
-      className="relative w-full h-screen overflow-hidden bg-[hsl(35,33%,90%)]"
+      className="relative w-full aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden bg-black"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

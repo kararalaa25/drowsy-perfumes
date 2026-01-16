@@ -18,17 +18,8 @@ const Hero = () => {
         transition={{ duration: 1, ease: "easeOut" }}
         className="text-center max-w-4xl"
       >
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-sm tracking-[0.3em] uppercase text-muted-foreground mb-6"
-        >
-          Maison de Parfum • Paris
-        </motion.p>
-        
         <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-medium tracking-tight mb-6">
-          L'Essence
+          DROWSY
         </h1>
         
         <motion.div
