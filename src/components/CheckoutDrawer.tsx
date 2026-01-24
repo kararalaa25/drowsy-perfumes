@@ -189,9 +189,9 @@ ${productName} - ${productPrice}
                   <div className="w-20 h-20 border border-gold flex items-center justify-center mx-auto mb-8">
                     <CheckCircle className="w-10 h-10 text-gold" />
                   </div>
-                  <h3 className="font-serif text-3xl mb-4">Merci</h3>
-                  <p className="text-muted-foreground leading-relaxed mb-8">
-                    Your order has been received. Our team will contact you shortly to confirm your shipment details.
+                  <h3 className="font-serif text-3xl mb-4">شكراً لك</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8 font-arabic">
+                    تم استلام طلبك بنجاح. سيتواصل فريقنا معك قريباً لتأكيد تفاصيل الشحن.
                   </p>
                   <div className="border border-border p-6 text-left">
                     <p className="text-xs tracking-[0.15em] uppercase text-muted-foreground mb-2">Order Summary</p>
