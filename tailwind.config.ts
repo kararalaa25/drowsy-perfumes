@@ -15,7 +15,8 @@ export default {
   	extend: {
   		fontFamily: {
   			serif: [
-  				'Merriweather',
+  				'Playfair Display',
+  				'Bodoni Moda',
   				'ui-serif',
   				'Georgia',
   				'Cambria',
@@ -24,7 +25,8 @@ export default {
   				'serif'
   			],
   			sans: [
-  				'Poppins',
+  				'Montserrat',
+  				'Lato',
   				'ui-sans-serif',
   				'system-ui',
   				'-apple-system',
@@ -89,7 +91,12 @@ export default {
   			charcoal: {
   				DEFAULT: 'hsl(var(--charcoal))',
   				light: 'hsl(var(--charcoal-light))'
-  			}
+  			},
+  			cream: {
+  				DEFAULT: 'hsl(var(--cream))',
+  				dark: 'hsl(var(--cream-dark))'
+  			},
+  			midnight: 'hsl(var(--midnight))'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

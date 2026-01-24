@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Globe, X, Send, ChevronDown } from "lucide-react";
+import { MessageCircle, Globe, X, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -54,7 +54,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
   });
 
   const getWhatsAppUrl = (message?: string) => {
-    const defaultMessage = `مرحباً، أود طلب عطر ${productName}`;
+    const defaultMessage = `Hello Dropsy, I would like to order ${productName}.`;
     const finalMessage = encodeURIComponent(message || defaultMessage);
     return `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${finalMessage}`;
   };
@@ -87,7 +87,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
     <div className={`relative ${isSticky ? "fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background via-background to-transparent md:relative md:p-0 md:bg-transparent" : ""}`}>
       <Button
         onClick={() => setShowOptions(true)}
-        className="w-full md:w-auto font-arabic text-lg py-6 px-10 bg-gold hover:bg-gold/90 text-charcoal font-semibold rounded-lg shadow-lg shadow-gold/20 transition-all duration-300 hover:shadow-xl hover:shadow-gold/30"
+        className="w-full md:w-auto font-arabic text-lg py-6 px-12 bg-gold hover:bg-gold-light text-midnight font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
       >
         اطلب الآن
       </Button>
@@ -102,15 +102,15 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowOptions(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-midnight/70 backdrop-blur-sm z-50"
             />
             
             {/* Modal */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm bg-background border border-border rounded-2xl p-6 shadow-2xl"
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm bg-background border border-border p-8 shadow-2xl"
               dir="rtl"
             >
               <button
@@ -123,17 +123,17 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               <h3 className="font-arabic text-xl font-semibold text-center mb-2">
                 طريقة الطلب
               </h3>
-              <p className="font-arabic text-sm text-muted-foreground text-center mb-6">
+              <p className="font-arabic text-sm text-muted-foreground text-center mb-8">
                 اختر طريقة التواصل المفضلة لديك
               </p>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <a
                   href={getWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setShowOptions(false)}
-                  className="w-full flex items-center justify-center gap-3 p-4 rounded-xl bg-[#25D366] hover:bg-[#20BD5A] text-white font-arabic font-medium transition-all duration-300 hover:shadow-lg"
+                  className="w-full flex items-center justify-center gap-3 p-4 bg-[#25D366] hover:bg-[#20BD5A] text-white font-arabic font-medium transition-all duration-300 hover:shadow-lg"
                 >
                   <MessageCircle className="w-6 h-6" />
                   <span>اطلب عبر واتساب</span>
@@ -141,14 +141,14 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 
                 <button
                   onClick={() => setShowForm(true)}
-                  className="w-full flex items-center justify-center gap-3 p-4 rounded-xl bg-gradient-to-r from-primary to-primary/80 hover:opacity-90 text-primary-foreground font-arabic font-medium transition-all duration-300 hover:shadow-lg"
+                  className="w-full flex items-center justify-center gap-3 p-4 bg-foreground hover:bg-foreground/90 text-background font-arabic font-medium transition-all duration-300 hover:shadow-lg"
                 >
                   <Globe className="w-6 h-6" />
                   <span>اطلب عبر الموقع</span>
                 </button>
               </div>
 
-              <p className="font-arabic text-xs text-muted-foreground text-center mt-6">
+              <p className="font-arabic text-xs text-muted-foreground text-center mt-8">
                 سنتواصل معك لتأكيد الطلب والتوصيل
               </p>
             </motion.div>
@@ -169,15 +169,15 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                 setShowForm(false);
                 setShowOptions(false);
               }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-midnight/70 backdrop-blur-sm z-50"
             />
             
             {/* Form Modal */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm bg-background border border-border rounded-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto"
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm bg-background border border-border p-8 shadow-2xl max-h-[90vh] overflow-y-auto"
               dir="rtl"
             >
               <button
@@ -193,14 +193,14 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               <h3 className="font-arabic text-xl font-semibold text-center mb-2">
                 نموذج الطلب
               </h3>
-              <p className="font-arabic text-sm text-muted-foreground text-center mb-6">
+              <p className="font-arabic text-sm text-muted-foreground text-center mb-8">
                 {productName}
               </p>
 
-              <form onSubmit={handleFormSubmit} className="space-y-4">
+              <form onSubmit={handleFormSubmit} className="space-y-5">
                 {/* Full Name */}
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="font-arabic text-right block">
+                  <Label htmlFor="name" className="font-arabic text-right block text-sm">
                     الاسم الكامل
                   </Label>
                   <Input
@@ -208,7 +208,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                     type="text"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
-                    className="font-arabic text-right"
+                    className="font-arabic text-right bg-background border-border"
                     placeholder="أدخل اسمك الكامل"
                     required
                   />
@@ -216,7 +216,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 
                 {/* Phone Number - accepts both Western & Eastern Arabic numerals */}
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="font-arabic text-right block">
+                  <Label htmlFor="phone" className="font-arabic text-right block text-sm">
                     رقم الهاتف
                   </Label>
                   <Input
@@ -225,7 +225,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                     inputMode="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
-                    className="font-arabic text-right"
+                    className="font-arabic text-right bg-background border-border"
                     placeholder="07xxxxxxxxx أو ٠٧xxxxxxxxx"
                     required
                   />
@@ -233,7 +233,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 
                 {/* Governorate Dropdown */}
                 <div className="space-y-2">
-                  <Label className="font-arabic text-right block">
+                  <Label className="font-arabic text-right block text-sm">
                     المحافظة
                   </Label>
                   <Select
@@ -263,7 +263,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 
                 {/* City/Neighborhood */}
                 <div className="space-y-2">
-                  <Label htmlFor="city" className="font-arabic text-right block">
+                  <Label htmlFor="city" className="font-arabic text-right block text-sm">
                     المدينة / الحي
                   </Label>
                   <Input
@@ -271,7 +271,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                     type="text"
                     value={formData.city}
                     onChange={(e) => handleInputChange("city", e.target.value)}
-                    className="font-arabic text-right"
+                    className="font-arabic text-right bg-background border-border"
                     placeholder="مثال: المنصور، الكرادة"
                     required
                   />
@@ -279,14 +279,14 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 
                 <Button
                   type="submit"
-                  className="w-full font-arabic text-lg py-6 bg-gold hover:bg-gold/90 text-charcoal font-semibold rounded-lg shadow-lg shadow-gold/20 transition-all duration-300 hover:shadow-xl hover:shadow-gold/30 mt-4"
+                  className="w-full font-arabic text-lg py-6 bg-gold hover:bg-gold-light text-midnight font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mt-6"
                 >
                   <Send className="w-5 h-5 ml-2" />
                   إتمام الطلب
                 </Button>
               </form>
 
-              <p className="font-arabic text-xs text-muted-foreground text-center mt-4">
+              <p className="font-arabic text-xs text-muted-foreground text-center mt-6">
                 سيتم إرسال طلبك عبر واتساب للتأكيد
               </p>
             </motion.div>

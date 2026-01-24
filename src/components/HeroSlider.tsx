@@ -8,10 +8,10 @@ import heroSlide3 from "@/assets/hero-slide-3.png";
 import heroSlide4 from "@/assets/hero-slide-4.png";
 
 const slides = [
-  { id: 1, src: heroSlide1, alt: "Elite Drowsy - Desert Scene" },
-  { id: 2, src: heroSlide2, alt: "Elite Drowsy - Lifestyle" },
-  { id: 3, src: heroSlide3, alt: "Elite Drowsy - Unboxing" },
-  { id: 4, src: heroSlide4, alt: "Elite Drowsy - Ingredients" },
+  { id: 1, src: heroSlide1, alt: "Dropsy Homme - Desert Scene" },
+  { id: 2, src: heroSlide2, alt: "Dropsy Homme - Lifestyle" },
+  { id: 3, src: heroSlide3, alt: "Dropsy Homme - Unboxing" },
+  { id: 4, src: heroSlide4, alt: "Dropsy Homme - Ingredients" },
 ];
 
 const HeroSlider = () => {
@@ -41,7 +41,7 @@ const HeroSlider = () => {
 
   return (
     <section
-      className="relative w-full aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden bg-black"
+      className="relative w-full aspect-[4/5] md:aspect-[16/9] lg:aspect-[21/9] overflow-hidden bg-midnight"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -73,7 +73,7 @@ const HeroSlider = () => {
       </AnimatePresence>
 
       {/* Dark Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-midnight/70 via-midnight/20 to-transparent pointer-events-none" />
 
       {/* Navigation Arrows - Show on hover */}
       <motion.button
@@ -81,7 +81,7 @@ const HeroSlider = () => {
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.3 }}
         onClick={prevSlide}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 p-3 bg-background/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-background/20 transition-colors duration-300"
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 p-3 bg-cream/10 backdrop-blur-sm border border-cream/20 rounded-full text-cream hover:bg-cream/20 transition-colors duration-300"
         aria-label="Previous slide"
       >
         <ChevronLeft className="w-6 h-6" />
@@ -92,7 +92,7 @@ const HeroSlider = () => {
         animate={{ opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.3 }}
         onClick={nextSlide}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 p-3 bg-background/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-background/20 transition-colors duration-300"
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 p-3 bg-cream/10 backdrop-blur-sm border border-cream/20 rounded-full text-cream hover:bg-cream/20 transition-colors duration-300"
         aria-label="Next slide"
       >
         <ChevronRight className="w-6 h-6" />
@@ -104,10 +104,10 @@ const HeroSlider = () => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-500 ${
+            className={`h-2 rounded-full transition-all duration-500 ${
               currentSlide === index
                 ? "bg-gold w-8"
-                : "bg-white/50 hover:bg-white/80"
+                : "bg-cream/40 hover:bg-cream/70 w-2"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
@@ -122,14 +122,14 @@ const HeroSlider = () => {
         className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 text-center"
         dir="rtl"
       >
-        <p className="font-arabic text-sm tracking-widest uppercase text-white/70 mb-2">
+        <p className="font-arabic text-sm tracking-widest uppercase text-cream/60 mb-3">
           للرجال
         </p>
-        <h2 className="font-arabic text-4xl md:text-6xl text-white font-bold">
+        <h2 className="font-arabic text-4xl md:text-6xl text-cream font-bold mb-2">
           إيليت
         </h2>
-        <p className="font-serif text-white/60 mt-3 text-lg tracking-widest uppercase">
-          Elite
+        <p className="font-serif text-cream/50 text-lg tracking-[0.3em] uppercase">
+          Homme
         </p>
       </motion.div>
     </section>
