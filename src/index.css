@@ -7,7 +7,12 @@
   font-family: 'Cairo', 'Tajawal', sans-serif;
 }
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Smooth theme transition */
+html {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
 All colors MUST be HSL.
 */
 

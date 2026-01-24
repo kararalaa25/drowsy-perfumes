@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import Navbar from "@/components/Navbar";
 import HeroSlider from "@/components/HeroSlider";
 import FemmeSlider from "@/components/FemmeSlider";
 import ArabicProductSection from "@/components/ArabicProductSection";
@@ -43,7 +44,8 @@ const eiveNotes = [
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+      <Navbar />
       <Hero />
       
       {/* Elite (Pour Homme) Section */}
