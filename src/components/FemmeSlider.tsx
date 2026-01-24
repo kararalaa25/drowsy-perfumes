@@ -14,15 +14,15 @@ import femmeSlide8 from "@/assets/femme-slide-8.png";
 import femmeSlide9 from "@/assets/femme-slide-9.png";
 
 const slides = [
-  { id: 1, src: femmeSlide1, alt: "Dropsy Femme - Silk & Pearls" },
-  { id: 2, src: femmeSlide2, alt: "Dropsy Femme - Luxury" },
-  { id: 3, src: femmeSlide3, alt: "Dropsy Femme - Rose Petals" },
-  { id: 4, src: femmeSlide4, alt: "Dropsy Femme - Fruity Notes" },
-  { id: 5, src: femmeSlide5, alt: "Dropsy Femme - Ethereal" },
-  { id: 6, src: femmeSlide6, alt: "Dropsy Femme - Opulence" },
-  { id: 7, src: femmeSlide7, alt: "Dropsy Femme - Satin" },
-  { id: 8, src: femmeSlide8, alt: "Dropsy Femme - Gift Box" },
-  { id: 9, src: femmeSlide9, alt: "Dropsy Femme - Elegance" },
+  { id: 1, src: femmeSlide1, alt: "Drowsy Femme - Silk & Pearls" },
+  { id: 2, src: femmeSlide2, alt: "Drowsy Femme - Luxury" },
+  { id: 3, src: femmeSlide3, alt: "Drowsy Femme - Rose Petals" },
+  { id: 4, src: femmeSlide4, alt: "Drowsy Femme - Fruity Notes" },
+  { id: 5, src: femmeSlide5, alt: "Drowsy Femme - Ethereal" },
+  { id: 6, src: femmeSlide6, alt: "Drowsy Femme - Opulence" },
+  { id: 7, src: femmeSlide7, alt: "Drowsy Femme - Satin" },
+  { id: 8, src: femmeSlide8, alt: "Drowsy Femme - Gift Box" },
+  { id: 9, src: femmeSlide9, alt: "Drowsy Femme - Elegance" },
 ];
 
 // Memoized slide image for lazy loading optimization

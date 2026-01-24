@@ -8,10 +8,10 @@ import heroSlide3 from "@/assets/hero-slide-3.png";
 import heroSlide4 from "@/assets/hero-slide-4.png";
 
 const slides = [
-  { id: 1, src: heroSlide1, alt: "Dropsy Homme - Desert Scene" },
-  { id: 2, src: heroSlide2, alt: "Dropsy Homme - Lifestyle" },
-  { id: 3, src: heroSlide3, alt: "Dropsy Homme - Unboxing" },
-  { id: 4, src: heroSlide4, alt: "Dropsy Homme - Ingredients" },
+  { id: 1, src: heroSlide1, alt: "Drowsy Homme - Desert Scene" },
+  { id: 2, src: heroSlide2, alt: "Drowsy Homme - Lifestyle" },
+  { id: 3, src: heroSlide3, alt: "Drowsy Homme - Unboxing" },
+  { id: 4, src: heroSlide4, alt: "Drowsy Homme - Ingredients" },
 ];
 
 const HeroSlider = () => {

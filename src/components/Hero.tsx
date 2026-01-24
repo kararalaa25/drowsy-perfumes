@@ -7,7 +7,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden bg-background">
+    <section className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden bg-background pt-20">
       {/* Subtle decorative elements */}
       <div className="absolute top-20 left-10 w-40 h-40 border border-gold/10 rounded-full opacity-40" />
       <div className="absolute bottom-40 right-20 w-56 h-56 border border-gold/5 rounded-full opacity-30" />
@@ -29,7 +29,7 @@ const Hero = () => {
         </motion.p>
         
         <h1 className="font-serif text-7xl md:text-8xl lg:text-9xl font-medium tracking-tight mb-8 text-foreground">
-          Dropsy
+          Drowsy
         </h1>
         
         <motion.div
@@ -43,7 +43,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="font-arabic text-xl md:text-2xl text-charcoal-light mb-14 leading-relaxed"
+          className="font-arabic text-xl md:text-2xl text-muted-foreground mb-14 leading-relaxed"
         >
           حيث يصبح العطر فناً للحياة
         </motion.p>
@@ -53,9 +53,9 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1, duration: 0.6 }}
           onClick={scrollToProducts}
-          className="group relative px-12 py-5 bg-foreground text-background hover:bg-gold hover:text-foreground transition-all duration-500 shadow-lg hover:shadow-xl"
+          className="group relative px-12 py-5 bg-gold text-midnight hover:bg-gold-light transition-all duration-300 shadow-lg hover:shadow-xl"
         >
-          <span className="relative z-10 text-sm tracking-[0.25em] uppercase font-medium">
+          <span className="relative z-10 text-sm tracking-[0.25em] uppercase font-semibold">
             اكتشف العطور
           </span>
         </motion.button>

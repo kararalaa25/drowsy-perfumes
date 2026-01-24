@@ -17,7 +17,7 @@ interface PurchaseButtonProps {
   isSticky?: boolean;
 }
 
-// Using full API URL format for better compatibility
+// WhatsApp phone number (without + sign for wa.me format)
 const WHATSAPP_PHONE = "9647706713486";
 
 // Iraqi governorates list
@@ -53,10 +53,11 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
     city: "",
   });
 
+  // Generate WhatsApp URL with proper wa.me format
   const getWhatsAppUrl = (message?: string) => {
-    const defaultMessage = `Hello Dropsy, I would like to order ${productName}.`;
-    const finalMessage = encodeURIComponent(message || defaultMessage);
-    return `https://api.whatsapp.com/send?phone=${WHATSAPP_PHONE}&text=${finalMessage}`;
+    const defaultMessage = `Hello Drowsy, I would like to order ${productName}.`;
+    const encodedMessage = encodeURIComponent(message || defaultMessage);
+    return `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`;
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -83,6 +84,12 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleWhatsAppClick = () => {
+    const url = getWhatsAppUrl();
+    window.open(url, "_blank", "noopener,noreferrer");
+    setShowOptions(false);
+  };
+
   return (
     <div className={`relative ${isSticky ? "fixed bottom-0 left-0 right-0 z-50 p-4 bg-gradient-to-t from-background via-background to-transparent md:relative md:p-0 md:bg-transparent" : ""}`}>
       <Button
@@ -102,7 +109,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowOptions(false)}
-              className="fixed inset-0 bg-midnight/70 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-50"
             />
             
             {/* Modal */}
@@ -110,6 +117,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm bg-background border border-border p-8 shadow-2xl"
               dir="rtl"
             >
@@ -120,7 +128,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                 <X className="w-5 h-5" />
               </button>
 
-              <h3 className="font-arabic text-xl font-semibold text-center mb-2">
+              <h3 className="font-arabic text-xl font-semibold text-center mb-2 text-foreground">
                 طريقة الطلب
               </h3>
               <p className="font-arabic text-sm text-muted-foreground text-center mb-8">
@@ -128,16 +136,13 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               </p>
 
               <div className="space-y-4">
-                <a
-                  href={getWhatsAppUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setShowOptions(false)}
+                <button
+                  onClick={handleWhatsAppClick}
                   className="w-full flex items-center justify-center gap-3 p-4 bg-[#25D366] hover:bg-[#20BD5A] text-white font-arabic font-medium transition-all duration-300 hover:shadow-lg"
                 >
                   <MessageCircle className="w-6 h-6" />
                   <span>اطلب عبر واتساب</span>
-                </a>
+                </button>
 
                 <button
                   onClick={() => setShowForm(true)}
@@ -169,7 +174,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                 setShowForm(false);
                 setShowOptions(false);
               }}
-              className="fixed inset-0 bg-midnight/70 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-foreground/60 backdrop-blur-sm z-50"
             />
             
             {/* Form Modal */}
@@ -177,6 +182,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
               className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90vw] max-w-sm bg-background border border-border p-8 shadow-2xl max-h-[90vh] overflow-y-auto"
               dir="rtl"
             >
@@ -190,7 +196,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                 <X className="w-5 h-5" />
               </button>
 
-              <h3 className="font-arabic text-xl font-semibold text-center mb-2">
+              <h3 className="font-arabic text-xl font-semibold text-center mb-2 text-foreground">
                 نموذج الطلب
               </h3>
               <p className="font-arabic text-sm text-muted-foreground text-center mb-8">
@@ -200,7 +206,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
               <form onSubmit={handleFormSubmit} className="space-y-5">
                 {/* Full Name */}
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="font-arabic text-right block text-sm">
+                  <Label htmlFor="name" className="font-arabic text-right block text-sm text-foreground">
                     الاسم الكامل
                   </Label>
                   <Input
@@ -208,7 +214,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                     type="text"
                     value={formData.name}
                     onChange={(e) => handleInputChange("name", e.target.value)}
-                    className="font-arabic text-right bg-background border-border"
+                    className="font-arabic text-right bg-background border-border text-foreground"
                     placeholder="أدخل اسمك الكامل"
                     required
                   />
@@ -216,7 +222,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 
                 {/* Phone Number - accepts both Western & Eastern Arabic numerals */}
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="font-arabic text-right block text-sm">
+                  <Label htmlFor="phone" className="font-arabic text-right block text-sm text-foreground">
                     رقم الهاتف
                   </Label>
                   <Input
@@ -225,7 +231,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                     inputMode="tel"
                     value={formData.phone}
                     onChange={(e) => handleInputChange("phone", e.target.value)}
-                    className="font-arabic text-right bg-background border-border"
+                    className="font-arabic text-right bg-background border-border text-foreground"
                     placeholder="07xxxxxxxxx أو ٠٧xxxxxxxxx"
                     required
                   />
@@ -233,7 +239,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 
                 {/* Governorate Dropdown */}
                 <div className="space-y-2">
-                  <Label className="font-arabic text-right block text-sm">
+                  <Label className="font-arabic text-right block text-sm text-foreground">
                     المحافظة
                   </Label>
                   <Select
@@ -241,7 +247,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                     onValueChange={(value) => handleInputChange("governorate", value)}
                     required
                   >
-                    <SelectTrigger className="w-full font-arabic text-right bg-background border-border">
+                    <SelectTrigger className="w-full font-arabic text-right bg-background border-border text-foreground">
                       <SelectValue placeholder="اختر المحافظة" />
                     </SelectTrigger>
                     <SelectContent 
@@ -263,7 +269,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
 
                 {/* City/Neighborhood */}
                 <div className="space-y-2">
-                  <Label htmlFor="city" className="font-arabic text-right block text-sm">
+                  <Label htmlFor="city" className="font-arabic text-right block text-sm text-foreground">
                     المدينة / الحي
                   </Label>
                   <Input
@@ -271,7 +277,7 @@ const PurchaseButton = ({ productName, isSticky = false }: PurchaseButtonProps) 
                     type="text"
                     value={formData.city}
                     onChange={(e) => handleInputChange("city", e.target.value)}
-                    className="font-arabic text-right bg-background border-border"
+                    className="font-arabic text-right bg-background border-border text-foreground"
                     placeholder="مثال: المنصور، الكرادة"
                     required
                   />
