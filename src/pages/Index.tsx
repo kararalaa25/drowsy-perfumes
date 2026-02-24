@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import HeroSlider from "@/components/HeroSlider";
 import FemmeSlider from "@/components/FemmeSlider";
 import ArabicProductSection from "@/components/ArabicProductSection";
+import MobilePurchaseBar from "@/components/MobilePurchaseBar";
 import Footer from "@/components/Footer";
 
 // Arabic product data
@@ -75,6 +76,7 @@ const Index = () => {
         />
       </div>
       
+      <MobilePurchaseBar />
       <Footer />
     </div>
   );
