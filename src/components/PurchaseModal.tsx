@@ -1,27 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Globe, X, Send, CheckCircle } from "lucide-react";
+import { X, Send, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
 
-const WHATSAPP_PHONE = "9647706713486";
+const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbzkYQZqf7XraBtxCTKkpg6OB0HRmB2-J-LEvxJN4q5rptD_i4Dr6EEjXjqsFm7EXCRw/exec";
 
-const IRAQI_GOVERNORATES = [
-  "بغداد", "البصرة", "نينوى", "أربيل", "النجف", "كربلاء",
-  "ذي قار", "كركوك", "الأنبار", "بابل", "ديالى", "المثنى",
-  "القادسية", "ميسان", "واسط", "صلاح الدين", "دهوك", "السليمانية", "حلبجة",
-];
-
-type View = "options" | "form" | "success";
+type View = "form" | "success";
 
 interface PurchaseModalProps {
   open: boolean;
@@ -30,25 +16,18 @@ interface PurchaseModalProps {
 }
 
 const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
-  const [view, setView] = useState<View>("options");
+  const [view, setView] = useState<View>("form");
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
-    governorate: "",
-    city: "",
+    location: "",
   });
 
   const handleClose = () => {
-    setView("options");
-    setFormData({ name: "", phone: "", governorate: "", city: "" });
+    setView("form");
+    setFormData({ name: "", phone: "", location: "" });
     onClose();
-  };
-
-  const handleWhatsAppClick = () => {
-    const message = encodeURIComponent(`Hello Drowsy, I would like to order ${productName}.`);
-    window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${message}`, "_blank", "noopener,noreferrer");
-    handleClose();
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -56,15 +35,16 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
     setSubmitting(true);
 
     try {
-      const { error } = await supabase.from("orders").insert({
-        product_name: productName,
-        customer_name: formData.name,
-        phone: formData.phone,
-        governorate: formData.governorate,
-        city: formData.city,
+      await fetch(API_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          location: formData.location,
+        }),
       });
-
-      if (error) throw error;
       setView("success");
     } catch (err) {
       console.error("Order submission failed:", err);
@@ -104,38 +84,6 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
               <X className="w-5 h-5" />
             </button>
 
-            {/* Options View */}
-            {view === "options" && (
-              <>
-                <h3 className="font-arabic text-xl font-semibold text-center mb-2 text-foreground">
-                  طريقة الطلب
-                </h3>
-                <p className="font-arabic text-sm text-muted-foreground text-center mb-8">
-                  اختر طريقة التواصل المفضلة لديك
-                </p>
-                <div className="space-y-4">
-                  <button
-                    onClick={handleWhatsAppClick}
-                    className="w-full flex items-center justify-center gap-3 p-4 bg-[#25D366] hover:bg-[#20BD5A] text-white font-arabic font-medium transition-all duration-300 hover:shadow-lg active:scale-[0.98]"
-                  >
-                    <MessageCircle className="w-6 h-6" />
-                    <span>اطلب عبر واتساب</span>
-                  </button>
-                  <button
-                    onClick={() => setView("form")}
-                    className="w-full flex items-center justify-center gap-3 p-4 bg-foreground hover:bg-foreground/90 text-background font-arabic font-medium transition-all duration-300 hover:shadow-lg active:scale-[0.98]"
-                  >
-                    <Globe className="w-6 h-6" />
-                    <span>اطلب عبر الموقع</span>
-                  </button>
-                </div>
-                <p className="font-arabic text-xs text-muted-foreground text-center mt-8">
-                  سنتواصل معك لتأكيد الطلب والتوصيل
-                </p>
-              </>
-            )}
-
-            {/* Form View */}
             {view === "form" && (
               <>
                 <h3 className="font-arabic text-xl font-semibold text-center mb-2 text-foreground">
@@ -175,37 +123,16 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label className="font-arabic text-right block text-sm text-foreground">
-                      المحافظة
-                    </Label>
-                    <Select
-                      value={formData.governorate}
-                      onValueChange={(value) => handleInputChange("governorate", value)}
-                      required
-                    >
-                      <SelectTrigger className="w-full font-arabic text-right bg-background border-border text-foreground h-12">
-                        <SelectValue placeholder="اختر المحافظة" />
-                      </SelectTrigger>
-                      <SelectContent className="font-arabic bg-background border-border z-[100] max-h-60" dir="rtl">
-                        {IRAQI_GOVERNORATES.map((gov) => (
-                          <SelectItem key={gov} value={gov} className="font-arabic text-right hover:bg-muted cursor-pointer py-3">
-                            {gov}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="city" className="font-arabic text-right block text-sm text-foreground">
-                      المدينة / الحي
+                    <Label htmlFor="location" className="font-arabic text-right block text-sm text-foreground">
+                      الموقع
                     </Label>
                     <Input
-                      id="city"
+                      id="location"
                       type="text"
-                      value={formData.city}
-                      onChange={(e) => handleInputChange("city", e.target.value)}
+                      value={formData.location}
+                      onChange={(e) => handleInputChange("location", e.target.value)}
                       className="font-arabic text-right bg-background border-border text-foreground h-12"
-                      placeholder="مثال: المنصور، الكرادة"
+                      placeholder="المحافظة / المدينة / الحي"
                       required
                     />
                   </div>
@@ -215,13 +142,12 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
                     className="w-full font-arabic text-lg py-6 bg-gold hover:bg-gold-light text-midnight font-semibold shadow-lg hover:shadow-xl transition-all duration-300 mt-6"
                   >
                     <Send className="w-5 h-5 ml-2" />
-                    {submitting ? "جاري الإرسال..." : "إتمام الطلب"}
+                    {submitting ? "جاري الإرسال..." : "إرسال"}
                   </Button>
                 </form>
               </>
             )}
 
-            {/* Success View */}
             {view === "success" && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -232,10 +158,10 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
                   <CheckCircle className="w-10 h-10 text-gold" />
                 </div>
                 <h3 className="font-arabic text-2xl font-semibold text-foreground mb-3">
-                  تم إرسال طلبك بنجاح
+                  شكراً لك!
                 </h3>
-                <p className="font-arabic text-muted-foreground mb-8 leading-relaxed">
-                  سيتم التواصل معك قريباً لتأكيد الطلب وترتيب التوصيل
+                <p className="text-muted-foreground mb-8 leading-relaxed">
+                  Thank you! Your order has been sent. Our team will contact you on WhatsApp soon.
                 </p>
                 <Button
                   onClick={handleClose}
