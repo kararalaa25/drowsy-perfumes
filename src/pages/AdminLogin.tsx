@@ -12,30 +12,11 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [mode, setMode] = useState<"login" | "signup">("login");
-  const [success, setSuccess] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    setSuccess("");
-
-    if (mode === "signup") {
-      const { error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-      if (signUpError) {
-        setError(signUpError.message);
-        setLoading(false);
-        return;
-      }
-      setSuccess("Account created! You can now sign in.");
-      setMode("login");
-      setLoading(false);
-      return;
-    }
 
     const { error: authError } = await supabase.auth.signInWithPassword({
       email,
@@ -58,15 +39,11 @@ const AdminLogin = () => {
           <div className="w-16 h-16 mx-auto rounded-full bg-accent/10 flex items-center justify-center">
             <Lock className="w-8 h-8 text-accent" />
           </div>
-          <h1 className="text-2xl font-serif font-semibold text-foreground">
-            {mode === "login" ? "Admin Login" : "Create Admin Account"}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {mode === "login" ? "Sign in to manage orders" : "Set up your admin credentials"}
-          </p>
+          <h1 className="text-2xl font-serif font-semibold text-foreground">Admin Login</h1>
+          <p className="text-sm text-muted-foreground">Sign in to manage orders</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -74,7 +51,7 @@ const AdminLogin = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="kararalkhafaji20@gmail.com"
+              placeholder="admin@example.com"
               required
             />
           </div>
@@ -87,24 +64,14 @@ const AdminLogin = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              minLength={6}
             />
           </div>
 
           {error && <p className="text-sm text-destructive text-center">{error}</p>}
-          {success && <p className="text-sm text-accent text-center">{success}</p>}
 
           <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Please wait..." : mode === "login" ? "Sign In" : "Create Account"}
+            {loading ? "Signing in..." : "Sign In"}
           </Button>
-
-          <button
-            type="button"
-            onClick={() => { setMode(mode === "login" ? "signup" : "login"); setError(""); setSuccess(""); }}
-            className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors text-center"
-          >
-            {mode === "login" ? "Need to create an account? Sign up" : "Already have an account? Sign in"}
-          </button>
         </form>
       </div>
     </div>
