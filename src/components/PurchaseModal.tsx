@@ -4,6 +4,7 @@ import { X, Send, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
 
 const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbzkYQZqf7XraBtxCTKkpg6OB0HRmB2-J-LEvxJN4q5rptD_i4Dr6EEjXjqsFm7EXCRw/exec";
 
@@ -35,6 +36,7 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
     setSubmitting(true);
 
     try {
+      // Send to Google Sheets
       await fetch(API_ENDPOINT, {
         method: "POST",
         mode: "no-cors",
@@ -45,6 +47,17 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
           location: formData.location,
         }),
       });
+
+      // Also insert into database for admin dashboard
+      const locationParts = formData.location.split("/").map((s) => s.trim());
+      await supabase.from("orders").insert({
+        customer_name: formData.name,
+        phone: formData.phone,
+        product_name: productName,
+        governorate: locationParts[0] || formData.location,
+        city: locationParts[1] || "",
+      });
+
       setView("success");
     } catch (err) {
       console.error("Order submission failed:", err);
@@ -54,7 +67,7 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -154,8 +167,8 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-8"
               >
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gold/10 flex items-center justify-center">
-                  <CheckCircle className="w-10 h-10 text-gold" />
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-accent/10 flex items-center justify-center">
+                  <CheckCircle className="w-10 h-10 text-accent" />
                 </div>
                 <h3 className="font-arabic text-2xl font-semibold text-foreground mb-3">
                   شكراً لك!
