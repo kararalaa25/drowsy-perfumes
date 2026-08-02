@@ -23,18 +23,24 @@ const AdminLogin = () => {
 
     const email = toEmail(username);
 
-    let { error: authError } = await supabase.auth.signInWithPassword({ email, password });
-
-    // First-time setup: create the admin account if it does not exist yet
-    if (authError && username.trim().toUpperCase() === "ADMIN2016" && password === "ADMIN2016") {
-      const { error: signUpError } = await supabase.auth.signUp({ email, password });
-      if (!signUpError) {
-        ({ error: authError } = await supabase.auth.signInWithPassword({ email, password }));
-      }
-    }
+    const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
 
     if (authError) {
-      setError(authError.message);
+      setError("بيانات الدخول غير صحيحة");
+      setLoading(false);
+      return;
+    }
+
+    // Claim the admin role (server-side verified) and confirm authorization
+    await supabase.rpc("claim_admin_role");
+    const { data: isAdmin } = await supabase.rpc("has_role", {
+      _user_id: data.user.id,
+      _role: "admin",
+    });
+
+    if (!isAdmin) {
+      await supabase.auth.signOut();
+      setError("هذا الحساب لا يملك صلاحية الدخول");
       setLoading(false);
       return;
     }
