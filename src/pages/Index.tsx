@@ -1,3 +1,4 @@
+import { usePageMeta } from "@/hooks/usePageMeta";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import HeroSlider from "@/components/HeroSlider";
@@ -44,6 +45,11 @@ const eiveNotes = [
 ];
 
 const Index = () => {
+  usePageMeta({
+    title: "Drowsy — عطور عراقية فاخرة | Luxury Perfumes",
+    description: "اكتشف مجموعة Drowsy الفاخرة من العطور. عطور عراقية أصيلة بجودة عالمية وثبات طويل مع توصيل لكل المحافظات.",
+    path: "/",
+  });
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <Navbar />

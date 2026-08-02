@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePageMeta } from "@/hooks/usePageMeta";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Lock } from "lucide-react";
 
 const AdminLogin = () => {
+  usePageMeta({
+    title: "تسجيل دخول الإدارة | Drowsy",
+    description: "صفحة تسجيل الدخول الخاصة بفريق Drowsy للوصول إلى لوحة إدارة الطلبات.",
+    path: "/admin-login",
+    noindex: true,
+  });
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

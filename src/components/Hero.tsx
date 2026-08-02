@@ -50,6 +50,7 @@ const Hero = () => {
           className="font-serif text-7xl md:text-8xl lg:text-9xl font-medium tracking-tight mb-8 text-foreground select-none cursor-default"
         >
           Drowsy
+          <span className="sr-only"> — عطور عراقية فاخرة | Luxury Arabic Perfumes</span>
         </h1>
         
         <motion.div
