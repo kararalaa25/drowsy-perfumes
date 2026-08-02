@@ -4,7 +4,11 @@ import { ShoppingBag } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import PurchaseModal from "./PurchaseModal";
 
-const MobilePurchaseBar = () => {
+interface MobilePurchaseBarProps {
+  productName?: string;
+}
+
+const MobilePurchaseBar = ({ productName = "Drowsy" }: MobilePurchaseBarProps) => {
   const [showModal, setShowModal] = useState(false);
   const isMobile = useIsMobile();
 
@@ -20,17 +24,18 @@ const MobilePurchaseBar = () => {
       >
         <button
           onClick={() => setShowModal(true)}
+          aria-label={`اطلب عطر ${productName} الآن — شريط الطلب السريع`}
           className="w-full flex items-center justify-center gap-3 py-4 bg-gold hover:bg-gold-light text-midnight font-arabic font-semibold text-lg shadow-xl transition-all duration-300 active:scale-[0.98]"
         >
-          <ShoppingBag className="w-5 h-5" />
-          <span>اطلب الآن</span>
+          <ShoppingBag className="w-5 h-5" aria-hidden="true" />
+          <span>اطلب {productName} الآن</span>
         </button>
       </motion.div>
 
       <PurchaseModal
         open={showModal}
         onClose={() => setShowModal(false)}
-        productName="Drowsy"
+        productName={productName}
       />
     </>
   );

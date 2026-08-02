@@ -14,9 +14,10 @@ const PurchaseButton = ({ productName }: PurchaseButtonProps) => {
     <>
       <Button
         onClick={() => setShowModal(true)}
+        aria-label={`اطلب عطر ${productName} الآن`}
         className="w-full md:w-auto font-arabic text-lg py-6 px-12 bg-gold hover:bg-gold-light text-midnight font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
       >
-        اطلب الآن
+        اطلب {productName} الآن
       </Button>
 
       <PurchaseModal
