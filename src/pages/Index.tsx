@@ -45,6 +45,11 @@ const eiveNotes = [
 ];
 
 const Index = () => {
+  usePageMeta({
+    title: "Drowsy — عطور عراقية فاخرة | Luxury Perfumes",
+    description: "اكتشف مجموعة Drowsy الفاخرة من العطور. عطور عراقية أصيلة بجودة عالمية وثبات طويل مع توصيل لكل المحافظات.",
+    path: "/",
+  });
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       <Navbar />
