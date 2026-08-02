@@ -71,7 +71,7 @@ const Admin = () => {
     const phone = order.phone.replace(/[^0-9]/g, "");
     const fullPhone = phone.startsWith("0") ? `964${phone.slice(1)}` : phone;
     const message = encodeURIComponent(
-      `Hello ${order.customer_name}, I have received and accepted your order for ${order.product_name}. Let's finalize the delivery details!`
+      `مرحباً ${order.customer_name}، لقد استلمت طلبك على ${order.product_name} وقمت بقبوله. دعنا ننهي تفاصيل التوصيل!`
     );
     return `https://wa.me/${fullPhone}?text=${message}`;
   };
