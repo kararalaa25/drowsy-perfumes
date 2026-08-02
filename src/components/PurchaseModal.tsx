@@ -5,8 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
 
-const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbzkYQZqf7XraBtxCTKkpg6OB0HRmB2-J-LEvxJN4q5rptD_i4Dr6EEjXjqsFm7EXCRw/exec";
+const orderSchema = z.object({
+  name: z.string().trim().min(2, "الاسم قصير جداً").max(100, "الاسم طويل جداً"),
+  phone: z
+    .string()
+    .trim()
+    .transform((v) => v.replace(/[ -]/g, ""))
+    .refine((v) => /^07\d{8,9}$/.test(v), "رقم الهاتف غير صحيح (مثال: 07xxxxxxxxx)"),
+  location: z.string().trim().min(3, "الموقع قصير جداً").max(200, "الموقع طويل جداً"),
+});
 
 type View = "form" | "success";
 
@@ -19,6 +28,7 @@ interface PurchaseModalProps {
 const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
   const [view, setView] = useState<View>("form");
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -27,40 +37,36 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
 
   const handleClose = () => {
     setView("form");
+    setError("");
     setFormData({ name: "", phone: "", location: "" });
     onClose();
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
+    const parsed = orderSchema.safeParse(formData);
+    if (!parsed.success) {
+      setError(parsed.error.issues[0].message);
+      return;
+    }
+
     setSubmitting(true);
-
     try {
-      // Send to Google Sheets
-      await fetch(API_ENDPOINT, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          phone: formData.phone,
-          location: formData.location,
-        }),
+      const { data, error: fnError } = await supabase.functions.invoke("submit-order", {
+        body: { ...parsed.data, productName },
       });
 
-      // Also insert into database for admin dashboard
-      const locationParts = formData.location.split("/").map((s) => s.trim());
-      await supabase.from("orders").insert({
-        customer_name: formData.name,
-        phone: formData.phone,
-        product_name: productName,
-        governorate: locationParts[0] || formData.location,
-        city: locationParts[1] || "",
-      });
+      if (fnError || !data?.success) {
+        setError("تعذر إرسال الطلب، يرجى المحاولة مرة أخرى");
+        return;
+      }
 
       setView("success");
     } catch (err) {
       console.error("Order submission failed:", err);
+      setError("تعذر إرسال الطلب، يرجى المحاولة مرة أخرى");
     } finally {
       setSubmitting(false);
     }
@@ -68,6 +74,7 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setError("");
   };
 
   return (
@@ -118,6 +125,7 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
                       className="font-arabic text-right bg-background border-border text-foreground h-12"
                       placeholder="أدخل اسمك الكامل"
                       required
+                      maxLength={100}
                     />
                   </div>
                   <div className="space-y-2">
@@ -133,6 +141,7 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
                       className="font-arabic text-right bg-background border-border text-foreground h-12"
                       placeholder="07xxxxxxxxx"
                       required
+                      maxLength={20}
                     />
                   </div>
                   <div className="space-y-2">
@@ -147,8 +156,12 @@ const PurchaseModal = ({ open, onClose, productName }: PurchaseModalProps) => {
                       className="font-arabic text-right bg-background border-border text-foreground h-12"
                       placeholder="المحافظة / المدينة / الحي"
                       required
+                      maxLength={200}
                     />
                   </div>
+                  {error && (
+                    <p className="font-arabic text-sm text-destructive text-center">{error}</p>
+                  )}
                   <Button
                     type="submit"
                     disabled={submitting}
