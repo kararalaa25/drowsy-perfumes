@@ -8,20 +8,30 @@ import { Lock } from "lucide-react";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const toEmail = (value: string) =>
+    value.includes("@") ? value.trim() : `${value.trim().toLowerCase()}@drowsy.local`;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const email = toEmail(username);
+
+    let { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+
+    // First-time setup: create the admin account if it does not exist yet
+    if (authError && username.trim().toUpperCase() === "ADMIN2016" && password === "ADMIN2016") {
+      const { error: signUpError } = await supabase.auth.signUp({ email, password });
+      if (!signUpError) {
+        ({ error: authError } = await supabase.auth.signInWithPassword({ email, password }));
+      }
+    }
 
     if (authError) {
       setError(authError.message);
@@ -45,13 +55,14 @@ const AdminLogin = () => {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="username">Username</Label>
             <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@example.com"
+              id="username"
+              type="text"
+              autoCapitalize="none"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Username"
               required
             />
           </div>

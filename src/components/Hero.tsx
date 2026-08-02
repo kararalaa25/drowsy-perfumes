@@ -1,6 +1,23 @@
 import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const taps = useRef(0);
+  const lastTap = useRef(0);
+
+  const handleLogoTap = () => {
+    const now = Date.now();
+    if (now - lastTap.current > 1500) taps.current = 0;
+    lastTap.current = now;
+    taps.current += 1;
+    if (taps.current >= 6) {
+      taps.current = 0;
+      navigate("/admin-login");
+    }
+  };
+
   const scrollToProducts = () => {
     const productsSection = document.getElementById("elite-section");
     productsSection?.scrollIntoView({ behavior: "smooth" });
@@ -28,7 +45,10 @@ const Hero = () => {
           عطور فاخرة
         </motion.p>
         
-        <h1 className="font-serif text-7xl md:text-8xl lg:text-9xl font-medium tracking-tight mb-8 text-foreground">
+        <h1
+          onClick={handleLogoTap}
+          className="font-serif text-7xl md:text-8xl lg:text-9xl font-medium tracking-tight mb-8 text-foreground select-none cursor-default"
+        >
           Drowsy
         </h1>
         
