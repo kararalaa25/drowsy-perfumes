@@ -1,3 +1,4 @@
+import { usePageMeta } from "@/hooks/usePageMeta";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import HeroSlider from "@/components/HeroSlider";
