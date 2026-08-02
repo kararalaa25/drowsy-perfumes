@@ -18,6 +18,12 @@ import type { Tables } from "@/integrations/supabase/types";
 type Order = Tables<"orders">;
 
 const Admin = () => {
+  usePageMeta({
+    title: "لوحة الطلبات | Drowsy",
+    description: "لوحة تحكم داخلية لإدارة ومتابعة طلبات عطور Drowsy وتحديث حالة كل طلب.",
+    path: "/admin",
+    noindex: true,
+  });
   const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
   const [search, setSearch] = useState("");
